@@ -1,0 +1,18 @@
+* {
+  border: 0; margin: 0; padding: 0; background-color: transparent;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+html {
+  line-height: 1.15;
+  -ms-text-size-adjust: 100%;-
+  -webkit-text-size-adjust: 100%;
+}
+
+body, input, textarea, button, select {
+  line-height: 130%;
+}
