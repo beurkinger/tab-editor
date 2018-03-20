@@ -2,7 +2,7 @@ import Inferno from 'inferno';
 import Component from 'inferno-component';
 
 import './App.css';
-impot
+import Sheet from './Sheet/Sheet';
 class App extends Component {
 
   constructor(props) {
@@ -12,10 +12,11 @@ class App extends Component {
 	render () {
 		return (
       <div id="app" >
+        <Sheet />
       </div>
     );
 	}
 
 }
 
-module.exports = App;
+export default App;

@@ -1,5 +1,5 @@
 * {
-  border: 0; margin: 0; padding: 0; background-color: transparent;
+  /* border: 0; margin: 0; padding: 0; background-color: transparent; */
 }
 
 html, body, #root {
@@ -9,7 +9,7 @@ html, body, #root {
 
 html {
   line-height: 1.15;
-  -ms-text-size-adjust: 100%;-
+  -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
 
