@@ -1,0 +1,25 @@
+.note {
+  position: relative;
+  display: inline-block;
+  overflow: visible;
+  margin: 0;
+  padding: 0;
+}
+
+.note:hover {
+  cursor: default;
+}
+
+.note:hover::after,
+.note.--edited::after {
+  z-index: -1;
+  position: absolute;
+  left: -25%;
+  top: -10%;
+  display: block;
+  border-radius: 20%;
+  width: 150%;
+  height: 120%;
+  content: "";
+  background: #ceff76;
+}

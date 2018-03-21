@@ -7,7 +7,7 @@ class Sheet extends Component {
 
   state = {
     defaultTab: {
-      lineNames: ['E', 'A', 'D', 'G', 'B', 'e'],      
+      lineNames: ['e', 'B', 'G', 'D', 'A', 'E'],
       timeSignature: {
         numberOfBeats: 4,
         beatLength: 4,

@@ -1,6 +1,7 @@
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 
+import './Note.css';
 
 // export const NOTE_LENGTHS = {
 //   WHOLE: 'whole note',
@@ -12,34 +13,15 @@ import Component from 'inferno-component';
 
 export const SPACE_CHAR = '-';
 
-class Note extends Component {
-  state = { isBeingEdited: false };
-
-  handleClick = () => {
-    if (!this.isBeingEdited) this.setState({ isBeingEdited: true });
-  };
-
-	render () {
-    console.log(this.props, this.state)
-
-
-		return (
-      <span className="note" onClick={ this.handleClick }>
-        { this.props.content }
-        { this.state.isBeingEdited &&
-          <div className="noteEditor">
-            <input type="text" value={ this.props.content } />
-          </div>
-        }
-      </span>
-    );
-	}
-
-}
-
-Note.defaultProps = {
-  id: -1,
-  content: ''
+const Note = ({ clickHandler, content, id, isSelected }) => { 
+	return (
+    <div 
+      className={`note ${isSelected ? '--edited' : ''}`}
+      onClick={ () => { if (!isSelected) clickHandler(id); } }
+    >
+      { content }
+    </div>
+  );
 }
 
 export default Note;

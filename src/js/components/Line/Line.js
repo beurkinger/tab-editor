@@ -6,18 +6,19 @@ import './Line.css';
 import Note, { SPACE_CHAR } from '../Note/Note';
 
 class Line extends Component {
-  state = { notes: [] };
+  handleNoteClick = (noteId) => {
+    this.props.noteClickHandler(this.props.id, noteId);
+  };
 
-  componentWillMount () {
-    const notes = [];
-    for (var i = 0; i < 32; i++) {
-      const note = { content: SPACE_CHAR };
-      notes.push(note);
-    }
-    this.setState({ notes });
-  }
-
-  getNoteComponent = ({ content }, i) => <Note content={content} id={i} key={i} />;
+  getNoteComponent = (note, i) => (
+    <Note 
+      clickHandler={ this.handleNoteClick }
+      content={ note.content } 
+      id={ i } 
+      isSelected={ this.props.isSelected && i === this.props.selectedNoteId }
+      key={ i } 
+    />
+  );
 
 	render () {
 		return (
@@ -25,7 +26,7 @@ class Line extends Component {
         <span>
           { `${this.props.name}|` }
         </span>
-        { this.state.notes.map(this.getNoteComponent) }
+        { this.props.notes.map(this.getNoteComponent) }
         <span>
           { `|` }
         </span>
@@ -36,11 +37,10 @@ class Line extends Component {
 }
 
 Line.defaultProps = {
+  isSelected: false,
   name: '',
-  timeSignature: {
-    numberOfBeats: 4,
-    beatLength: 4,
-  },
+  notes: [],
+  selectedNoteId: -1,
 }
 
 export default Line;

@@ -1,11 +1,10 @@
 .tab {
   overflow: visible;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  font-size: 12px;
+  font-size: 15px;
   color: #24292e;
   word-wrap: normal;
   white-space: pre;
   line-height: 100%;
   white-space: pre;
-
 }
