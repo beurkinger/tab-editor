@@ -30,20 +30,50 @@ class Tab extends Component {
 
   addEventListeners = () => {
     document.addEventListener('mousedown', this.handleWindowClick);
+    document.addEventListener('keydown', this.handleKeyDown);
     document.addEventListener('keypress', this.handleKeyPress);
   }
 
   removeEventListeners = () => {
     document.removeEventListener('mousedown', this.handleWindowClick);
+    document.removeEventListener('keydown', this.handleKeyDown);
     document.removeEventListener('keypress', this.handleKeyPress);
   }
 
   handleWindowClick = e => {
-    this.setState({ selectedLineId: -1, selectedNoteId: -1 });
+    this.unselectNote();
     this.removeEventListeners();
   }  
 
+  handleKeyDown = e => {
+    const { selectedLineId, selectedNoteId } = this.state;
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        this.selectNote(selectedLineId + 1, selectedNoteId);
+        break;
+      case 'ArrowLeft':
+        e.preventDefault();
+        this.selectNote(selectedLineId, selectedNoteId - 1);
+        break;
+      case 'ArrowRight':
+        e.preventDefault();
+        this.selectNote(selectedLineId, selectedNoteId + 1);
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        this.selectNote(selectedLineId - 1, selectedNoteId);
+        break;
+      case 'Escape':
+        e.preventDefault();
+        this.unselectNote();
+        break;
+    }
+  }
+
   handleKeyPress = e => {
+    if (e.key.length < 1) return;
+    e.preventDefault();
     const content = e.key === ' ' ? SPACE_CHAR : e.key;
     const lines = this.state.lines.map((line, lineId) => {
       if (lineId !== this.state.selectedLineId) return { ...line };
@@ -57,9 +87,25 @@ class Tab extends Component {
   }
 
   handleNoteClick = (lineId, noteId) => {
-    this.setState({ selectedLineId: lineId, selectedNoteId: noteId });
+    this.selectNote(lineId, noteId);
     this.addEventListeners();
   };
+
+  selectNote (lineId, noteId) {
+    const { lines } = this.state;
+    if (this.doesNoteExist(lines, lineId, noteId)) {
+      this.setState({ selectedLineId: lineId, selectedNoteId: noteId });
+    }
+  }
+
+  doesNoteExist (lines, lineId, noteId) {
+    if (!lines[lineId]) return false;
+    return !!lines[lineId].notes[noteId];
+  }
+
+  unselectNote () {
+    this.setState({ selectedLineId: -1, selectedNoteId: -1 });
+  }
 
   getLineComponent = (line, i) => (
     <Line 
