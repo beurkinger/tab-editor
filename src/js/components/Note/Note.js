@@ -16,7 +16,7 @@ export const SPACE_CHAR = '-';
 const Note = ({ clickHandler, content, id, isSelected }) => { 
 	return (
     <div 
-      className={`note ${isSelected ? '--edited' : ''}`}
+      className={`note ${isSelected ? '--selected' : ''}`}
       onClick={ () => { if (!isSelected) clickHandler(id); } }
     >
       { content }

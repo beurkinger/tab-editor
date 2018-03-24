@@ -3,11 +3,13 @@ import Component from 'inferno-component';
 
 import './Tab.css';
 import Line from '../Line/Line';
+import TabHeader from './TabHeader/TabHeader';
 import { SPACE_CHAR } from '../Note/Note';
 
 class Tab extends Component {
   state = { 
     lines: [],
+    selectedColumnId: -1,
     selectedLineId: -1,
     selectedNoteId: -1,
    };
@@ -16,8 +18,7 @@ class Tab extends Component {
     const lines = this.props.lineNames.map(name => {
       const notes = [];
       for (var i = 0; i < 32; i++) {
-        const note = { content: SPACE_CHAR, isBeingEdited: false };
-        notes.push(note);
+        notes.push(this.getEmptyNote());
       }
       return { name, notes }
     });
@@ -28,8 +29,11 @@ class Tab extends Component {
     this.removeEventListeners();
   }
 
-  addEventListeners = () => {
+  addClickListener = () => {
     document.addEventListener('mousedown', this.handleWindowClick);
+  }
+
+  addKeyListeners = () => {
     document.addEventListener('keydown', this.handleKeyDown);
     document.addEventListener('keypress', this.handleKeyPress);
   }
@@ -41,7 +45,7 @@ class Tab extends Component {
   }
 
   handleWindowClick = e => {
-    this.unselectNote();
+    this.unselectEverything();
     this.removeEventListeners();
   }  
 
@@ -66,7 +70,7 @@ class Tab extends Component {
         break;
       case 'Escape':
         e.preventDefault();
-        this.unselectNote();
+        this.unselectEverything();
         break;
     }
   }
@@ -88,7 +92,8 @@ class Tab extends Component {
 
   handleNoteClick = (lineId, noteId) => {
     this.selectNote(lineId, noteId);
-    this.addEventListeners();
+    this.addClickListener();
+    this.addKeyListeners();
   };
 
   selectNote (lineId, noteId) {
@@ -103,8 +108,37 @@ class Tab extends Component {
     return !!lines[lineId].notes[noteId];
   }
 
-  unselectNote () {
-    this.setState({ selectedLineId: -1, selectedNoteId: -1 });
+  unselectEverything () {
+    this.setState({ selectedColumnId: -1, selectedLineId: -1, selectedNoteId: -1 });
+  }
+
+  getEmptyNote () {
+    return { content: SPACE_CHAR, isBeingEdited: false };
+  }
+
+  getNumberOfColumns (){
+    return (this.state.lines.length === 0) ? 0 : this.state.lines[0].notes.length;
+  }
+
+  handleAddButtonClick = () => {
+    const lines = this.state.lines.map(line => {
+      const notes = [...line.notes, this.getEmptyNote()];
+      return {...line, notes};
+    });
+    this.setState({ lines });
+  }
+
+  handleRemoveButtonClick = () => {
+    const lines = this.state.lines.map(line => {
+      const notes = line.notes.slice(0, -1);
+      return {...line, notes};
+    });
+    this.setState({ lines });
+  }
+
+  handleHeaderCellClick = (cellId) => {
+    this.setState({ selectedColumnId: cellId });
+    this.addClickListener();
   }
 
   getLineComponent = (line, i) => (
@@ -122,7 +156,23 @@ class Tab extends Component {
 	render () {
 		return (
       <div className="tab" >
-        { this.state.lines.map(this.getLineComponent) }
+        {/* <TabHeader 
+          cellClickHandler={ this.handleHeaderCellClick }
+          numberOfColumns={ this.getNumberOfColumns() } 
+          numberOfLines={ this.state.lines.length }
+          selectedColumnId={ this.state.selectedColumnId }
+        /> */}
+        {/* <div className="tab__menu">
+          <button onClick={ this.handleAddButtonClick } >
+            +
+          </button>
+          <button onClick={ this.handleRemoveButtonClick } >
+            -
+          </button>
+        </div> */}
+        <div className="tab__body">
+          { this.state.lines.map(this.getLineComponent) }
+        </div>
         <div className="tab__footer">
           { ` ` }
         </div>

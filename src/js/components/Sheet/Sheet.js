@@ -28,7 +28,9 @@ class Sheet extends Component {
 	render () {
 		return (
       <div className="sheet" >
-        <button onClick={ this.addTab } >ADD</button>
+        <button onClick={ this.addTab } >
+          ADD TAB
+        </button>
         { this.state.tabs.map(this.getTabComponent) }
       </div>
     );

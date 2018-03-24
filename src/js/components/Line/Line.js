@@ -24,7 +24,10 @@ class Line extends Component {
 		return (
       <div className="line" >
         <span>
-          { `${this.props.name}|` }
+          { `${this.props.name}` }
+        </span>
+        <span>
+          { `|` }
         </span>
         { this.props.notes.map(this.getNoteComponent) }
         <span>
