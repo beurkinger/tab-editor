@@ -1,0 +1,14 @@
+.cell {
+  position: relative;
+  display: inline-block;
+  overflow: visible;
+  margin: 0;
+  padding: 0 0 0 1px;
+  height: 15px;
+  width: 10px;
+  text-align: center;
+}
+
+.cell:hover {
+  cursor: default;
+}

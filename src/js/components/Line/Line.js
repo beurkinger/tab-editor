@@ -3,6 +3,7 @@ import Component from 'inferno-component';
 
 import './Line.css';
 
+import Cell from '../Cell/Cell';
 import Note, { SPACE_CHAR } from '../Note/Note';
 
 class Line extends Component {
@@ -23,16 +24,10 @@ class Line extends Component {
 	render () {
 		return (
       <div className="line" >
-        <span>
-          { `${this.props.name}` }
-        </span>
-        <span>
-          { `|` }
-        </span>
+        <Cell content={this.props.name} />
+        <Cell content={'|'} />
         { this.props.notes.map(this.getNoteComponent) }
-        <span>
-          { `|` }
-        </span>
+        <Cell content={'|'} />
       </div>
     );
 	}

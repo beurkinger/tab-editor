@@ -1,0 +1,29 @@
+.headerCell {
+  position: relative;
+  display: inline-block;
+  padding: 0;
+  height: 10px;
+  width: 10px;
+  opacity: 0;
+}
+
+.headerCell::before {
+  position: absolute;
+  left: -1px;
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 12px 6px 0 6px;
+  border-color: #000 transparent transparent transparent;
+  content: '';
+}
+
+.headerCell:hover {
+  cursor: default;
+}
+
+.headerCell:hover,
+.headerCell.--selected {
+  opacity: 1;
+}

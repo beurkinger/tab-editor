@@ -2,8 +2,9 @@ import Inferno from 'inferno';
 import Component from 'inferno-component';
 
 import './Tab.css';
-import Line from '../Line/Line';
-import TabHeader from './TabHeader/TabHeader';
+import TabBody from '../TabBody/TabBody';
+import TabHeader from '../TabHeader/TabHeader';
+import TabMenu from '../TabMenu/TabMenu';
 import { SPACE_CHAR } from '../Note/Note';
 
 class Tab extends Component {
@@ -116,24 +117,56 @@ class Tab extends Component {
     return { content: SPACE_CHAR, isBeingEdited: false };
   }
 
-  getNumberOfColumns (){
-    return (this.state.lines.length === 0) ? 0 : this.state.lines[0].notes.length;
+  getNumberOfColumns (lines) {
+    return (lines.length === 0) ? 0 : lines[0].notes.length;
   }
 
-  handleAddButtonClick = () => {
-    const lines = this.state.lines.map(line => {
-      const notes = [...line.notes, this.getEmptyNote()];
+  addColumn (lines, columnId, addAfter = true) {
+    const numberOfColumns = this.getNumberOfColumns(lines);
+    if ( numberOfColumns > 127) return;
+    let targetColumnId = (columnId < 0)
+      ? numberOfColumns - 1
+      : columnId;
+    targetColumnId = addAfter 
+      ? targetColumnId 
+      : targetColumnId -1;
+    const newLines = lines.map(line => {
+      const newNote = this.getEmptyNote();
+      const firstNotes = line.notes.slice(0, targetColumnId + 1);
+      const lastNotes = line.notes.slice(targetColumnId + 1);
+      const notes = [...firstNotes, newNote, ...lastNotes];
       return {...line, notes};
     });
-    this.setState({ lines });
+    const newSelectedColumnId = addAfter
+      ? columnId
+      : columnId + 1;
+    this.setState({ lines: newLines, selectedColumnId: newSelectedColumnId });
   }
 
-  handleRemoveButtonClick = () => {
-    const lines = this.state.lines.map(line => {
-      const notes = line.notes.slice(0, -1);
+  removeColumn (lines, columnId) {
+    const numberOfColumns = this.getNumberOfColumns(lines);
+    if ( numberOfColumns < 2) return;
+    const targetColumnId = (columnId < 0)
+      ? numberOfColumns - 1
+      : columnId;
+    const newLines = lines.map(line => {
+      const firstNotes = line.notes.slice(0, targetColumnId);
+      const lastNotes = line.notes.slice(targetColumnId + 1);
+      const notes = [...firstNotes, ...lastNotes];
       return {...line, notes};
     });
-    this.setState({ lines });
+    const newSelectedColumnId = (columnId + 1 >= numberOfColumns)
+      ? columnId - 1
+      : columnId;
+    this.setState({ lines: newLines, selectedColumnId: newSelectedColumnId });
+  }
+
+  handleAddButtonClick = (columnId, addAfter) => {
+    this.addColumn(this.state.lines, columnId, addAfter);
+  }
+
+  handleRemoveButtonClick = columnId => {
+    this.removeColumn(this.state.lines, columnId);
   }
 
   handleHeaderCellClick = (cellId) => {
@@ -141,38 +174,28 @@ class Tab extends Component {
     this.addClickListener();
   }
 
-  getLineComponent = (line, i) => (
-    <Line 
-      id={ i } 
-      isSelected={ i === this.state.selectedLineId }
-      name={ line.name }
-      notes={ line.notes }
-      key={ i } 
-      noteClickHandler={ this.handleNoteClick }
-      selectedNoteId={ this.state.selectedNoteId }
-    />
-  );
-
 	render () {
 		return (
       <div className="tab" >
-        {/* <TabHeader 
+        <TabMenu 
+          addButtonClickHandler={ this.handleAddButtonClick }
+          removeButtonClickHandler={ this.handleRemoveButtonClick }
+          ref={ cpt => { this.tabMenuCpt = cpt; } }
+          selectedColumnId={ this.state.selectedColumnId }
+        />
+        <TabHeader 
           cellClickHandler={ this.handleHeaderCellClick }
-          numberOfColumns={ this.getNumberOfColumns() } 
+          numberOfColumns={ this.getNumberOfColumns(this.state.lines) } 
           numberOfLines={ this.state.lines.length }
           selectedColumnId={ this.state.selectedColumnId }
-        /> */}
-        {/* <div className="tab__menu">
-          <button onClick={ this.handleAddButtonClick } >
-            +
-          </button>
-          <button onClick={ this.handleRemoveButtonClick } >
-            -
-          </button>
-        </div> */}
-        <div className="tab__body">
-          { this.state.lines.map(this.getLineComponent) }
-        </div>
+        />
+        <TabBody
+          lines={ this.state.lines }
+          noteClickHandler={ this.handleNoteClick }
+          selectedColumnId={ this.state.selectedColumnId }
+          selectedLineId={ this.state.selectedLineId }
+          selectedNoteId={ this.state.selectedNoteId }
+        />
         <div className="tab__footer">
           { ` ` }
         </div>
