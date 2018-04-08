@@ -78,6 +78,10 @@ class Tab extends Component {
     this.addKeyListeners();
   };
 
+  getColumnNotes (lines, columnId) {
+    return lines.map(line => line.notes[columnId])
+  }
+
   editSelectedNote (content) {
     const { selectedLineId, selectedNoteId } = this.state;
     this.props.updateNote(this.props.id, selectedLineId, selectedNoteId, content);
@@ -133,8 +137,17 @@ class Tab extends Component {
     this.setState({ selectedColumnId: newSelectedColumnId });
   }
 
+  copyToClipboard = (columnId) => {
+    const notes = this.getColumnNotes(this.props.lines, columnId);
+    this.props.copyToClipboard(notes);
+  }
+
+  pasteFromClipboard = (columnId) => {
+    this.props.pasteFromClipboard(this.props.id, columnId);
+  }
+
   handleHeaderCellClick = (cellId) => {
-    this.setState({ selectedColumnId: cellId });
+    this.setState({ selectedColumnId: cellId, selectedLineId: -1, selectedNoteId: -1 });
     this.addClickListener();
   }
 
@@ -143,6 +156,8 @@ class Tab extends Component {
       <div className="tab" >
         <TabMenu 
           addColumn={ this.addColumn }
+          copyToClipboard={ this.copyToClipboard } 
+          pasteFromClipboard={ this.pasteFromClipboard }
           removeColumn={ this.removeColumn }
           ref={ cpt => { this.tabMenuCpt = cpt; } }
           selectedColumnId={ this.state.selectedColumnId }

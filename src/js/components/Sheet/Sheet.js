@@ -10,6 +10,8 @@ class Sheet extends Component {
       <Tab 
         { ...tab } 
         addColumn={ this.props.addColumn } 
+        copyToClipboard={ this.props.copyToClipboard } 
+        pasteFromClipboard={ this.props.pasteFromClipboard }
         removeColumn={ this.props.removeColumn } 
         updateNote={ this.props.updateNote } 
       />);

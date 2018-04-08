@@ -13,6 +13,10 @@ class TabHeader extends Component {
     return cells;
   }
 
+  onMouseDown = e => {
+    e.stopPropagation();
+  }
+
   getCellComponent = (id, numberOfLines) => (
     <HeaderCell 
       clickHandler={ this.props.cellClickHandler }
@@ -24,7 +28,7 @@ class TabHeader extends Component {
 
 	render () {
 		return (
-      <div className="tabHeader" >
+      <div className="tabHeader" onMouseDown={ this.onMouseDown } >
         { this.getCellComponents(this.props.numberOfColumns, this.props.numberOfLines) }
       </div>
     );

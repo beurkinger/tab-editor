@@ -4,56 +4,55 @@ import Component from 'inferno-component';
 import './TabMenu.css';
 
 class TabMenu extends Component {
-  handleAddButtonClick = (addAfter = true) => {
+  onAddButtonClick = (addAfter = true) => {
     this.props.addColumn(this.props.selectedColumnId, addAfter);
   }
 
-  handleRemoveButtonClick = () => {
+  onCopyButtonClick = () => {
+    this.props.copyToClipboard(this.props.selectedColumnId);
+  }
+
+  onPasteButtonClick = () => {
+    this.props.pasteFromClipboard(this.props.selectedColumnId);
+  }
+
+  onRemoveButtonClick = () => {
     this.props.removeColumn(this.props.selectedColumnId);
   }
 
-  handleButtonMouseDown = e => {
+  onMouseDown = e => {
     e.stopPropagation();
   }
 
 	render () {
 		return (
-      <div className="tabMenu" >
+      <div className="tabMenu" onMouseDown={ this.onMouseDown } >
         { this.props.selectedColumnId < 0 &&
           <div>
-            <button 
-              onClick={ this.handleAddButtonClick } 
-              onMouseDown={ this.handleButtonMouseDown } 
-            >
+            <button onClick={ this.onAddButtonClick } >
               ADD A COLUMN
             </button>
-            <button 
-              onClick={ this.handleRemoveButtonClick }
-              onMouseDown={ this.handleButtonMouseDown } 
-            >
+            <button onClick={ this.onRemoveButtonClick } >
               REMOVE LAST COLUMN
             </button>
           </div>
         }
         { this.props.selectedColumnId >= 0 &&
           <div>
-            <button 
-              onClick={ () => this.handleAddButtonClick(false) } 
-              onMouseDown={ this.handleButtonMouseDown } 
-            >
-              ADD BEFORE SELECTION
+            <button onClick={ () => this.onAddButtonClick(false) } >
+              ADD BEFORE
             </button>
-            <button 
-              onClick={ this.handleRemoveButtonClick }
-              onMouseDown={ this.handleButtonMouseDown } 
-            >
-              REMOVE SELECTED
+            <button onClick={ () => this.onAddButtonClick(true) } >
+              ADD AFTER
             </button>
-            <button 
-              onClick={ this.handleAddButtonClick } 
-              onMouseDown={ this.handleButtonMouseDown } 
-            >
-              ADD AFTER SELECTION
+            <button onClick={ this.onCopyButtonClick } >
+              COPY
+            </button>
+            <button onClick={ this.onPasteButtonClick } >
+              PASTE
+            </button>
+            <button onClick={ this.onRemoveButtonClick } >
+              REMOVE
             </button>
           </div>
         }

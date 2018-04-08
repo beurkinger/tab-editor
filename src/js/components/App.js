@@ -5,10 +5,11 @@ import './App.css';
 import Sheet from './Sheet/Sheet';
 class App extends Component {
   state = {
+    clipboard: [],
     tabs : {
       byId : {},
       allIds : []
-    }
+    },
   };
 
   // Add lines to the store and return the new lines id
@@ -81,6 +82,30 @@ class App extends Component {
     this.updateTab(updatedTab);
   }
 
+  copyToClipboard = (notes = []) => {
+    this.setState({ clipboard: notes });
+  }
+
+  pasteFromClipboard = (tabId, columnId) => {
+    const tab = this.state.tabs.byId[tabId];
+    const newNotes = this.state.clipboard;
+
+    if (!newNotes.length) return;
+
+    const updatedLines = tab.lines.map((line, i) => {
+      const newNote = (newNotes[i] !== undefined) 
+        ? newNotes[i]
+        : '-'
+      const firstNotes = line.notes.slice(0, columnId);
+      const lastNotes = line.notes.slice(columnId + 1);
+      const notes = [...firstNotes, newNote, ...lastNotes];
+      return {...line, notes};
+    });
+    const updatedTab = { ...tab, lines: updatedLines };
+
+    this.updateTab(updatedTab);
+  }
+
   // return the biggest id in an array of number ids, or 0 if the array is empty
   getBiggestId = (allIds = []) => allIds.length > 0 ? Math.max(...allIds) : 0;
 
@@ -89,7 +114,9 @@ class App extends Component {
       <div id="app" >
         <Sheet 
           addTab={ this.addTab } 
-          addColumn={ this.addColumn } 
+          addColumn={ this.addColumn }
+          copyToClipboard={ this.copyToClipboard } 
+          pasteFromClipboard={ this.pasteFromClipboard } 
           removeColumn={ this.removeColumn } 
           updateNote={ this.updateNote }
           { ...this.state } 
