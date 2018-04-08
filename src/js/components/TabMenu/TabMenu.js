@@ -5,11 +5,11 @@ import './TabMenu.css';
 
 class TabMenu extends Component {
   handleAddButtonClick = (addAfter = true) => {
-    this.props.addButtonClickHandler(this.props.selectedColumnId, addAfter);
+    this.props.addColumn(this.props.selectedColumnId, addAfter);
   }
 
-  handleRemoveButtonClick = e => {
-    this.props.removeButtonClickHandler(this.props.selectedColumnId);
+  handleRemoveButtonClick = () => {
+    this.props.removeColumn(this.props.selectedColumnId);
   }
 
   handleButtonMouseDown = e => {

@@ -13,9 +13,9 @@ class Line extends Component {
 
   getNoteComponent = (note, i) => (
     <Note 
+      content={ note }
       clickHandler={ this.handleNoteClick }
-      content={ note.content } 
-      id={ i } 
+      id={ i }
       isSelected={ this.props.isSelected && i === this.props.selectedNoteId }
       key={ i } 
     />

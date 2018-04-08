@@ -4,34 +4,24 @@ import Component from 'inferno-component';
 import Tab from '../Tab/Tab';
 
 class Sheet extends Component {
-
-  state = {
-    defaultTab: {
-      lineNames: ['e', 'B', 'G', 'D', 'A', 'E'],
-      timeSignature: {
-        numberOfBeats: 4,
-        beatLength: 4,
-      },
-    },
-    tabs: [],
-    tempo: 120
+  getTabComponent = tabId => {
+    const tab = this.props.tabs.byId[tabId];
+    return (
+      <Tab 
+        { ...tab } 
+        addColumn={ this.props.addColumn } 
+        removeColumn={ this.props.removeColumn } 
+        updateNote={ this.props.updateNote } 
+      />);
   };
-
-  addTab = () => {
-    const tab = this.state.defaultTab;
-    const tabs = [...this.state.tabs, tab];
-    this.setState({ tabs });
-  };
-
-  getTabComponent = props => <Tab { ...props } />;
 
 	render () {
 		return (
       <div className="sheet" >
-        <button onClick={ this.addTab } >
+        <button onClick={ () => this.props.addTab() } >
           ADD TAB
         </button>
-        { this.state.tabs.map(this.getTabComponent) }
+        { this.props.tabs.allIds.map(this.getTabComponent) }
       </div>
     );
 	}

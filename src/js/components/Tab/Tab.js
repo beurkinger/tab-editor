@@ -9,22 +9,10 @@ import { SPACE_CHAR } from '../Note/Note';
 
 class Tab extends Component {
   state = { 
-    lines: [],
     selectedColumnId: -1,
     selectedLineId: -1,
     selectedNoteId: -1,
    };
-
-  componentWillMount () {
-    const lines = this.props.lineNames.map(name => {
-      const notes = [];
-      for (var i = 0; i < 32; i++) {
-        notes.push(this.getEmptyNote());
-      }
-      return { name, notes }
-    });
-    this.setState({ lines });
-  }
 
   componentWillUnmount () {
     this.removeEventListeners();
@@ -80,15 +68,8 @@ class Tab extends Component {
     if (e.key.length < 1) return;
     e.preventDefault();
     const content = e.key === ' ' ? SPACE_CHAR : e.key;
-    const lines = this.state.lines.map((line, lineId) => {
-      if (lineId !== this.state.selectedLineId) return { ...line };
-      const notes = line.notes.map((note, noteId) => {
-        if (noteId !== this.state.selectedNoteId) return { ...note };
-        return { ...note, content };
-      });
-      return { ...line, notes };
-    });
-    this.setState({ lines });
+    this.editSelectedNote(content);
+    this.selectNote(this.state.selectedLineId, this.state.selectedNoteId + 1);
   }
 
   handleNoteClick = (lineId, noteId) => {
@@ -97,9 +78,13 @@ class Tab extends Component {
     this.addKeyListeners();
   };
 
+  editSelectedNote (content) {
+    const { selectedLineId, selectedNoteId } = this.state;
+    this.props.updateNote(this.props.id, selectedLineId, selectedNoteId, content);
+  }
+
   selectNote (lineId, noteId) {
-    const { lines } = this.state;
-    if (this.doesNoteExist(lines, lineId, noteId)) {
+    if (this.doesNoteExist(this.props.lines, lineId, noteId)) {
       this.setState({ selectedLineId: lineId, selectedNoteId: noteId });
     }
   }
@@ -113,60 +98,39 @@ class Tab extends Component {
     this.setState({ selectedColumnId: -1, selectedLineId: -1, selectedNoteId: -1 });
   }
 
-  getEmptyNote () {
-    return { content: SPACE_CHAR, isBeingEdited: false };
-  }
-
-  getNumberOfColumns (lines) {
-    return (lines.length === 0) ? 0 : lines[0].notes.length;
-  }
-
-  addColumn (lines, columnId, addAfter = true) {
-    const numberOfColumns = this.getNumberOfColumns(lines);
+  addColumn = (columnId, addAfter = true) => {
+    const numberOfColumns = this.props.length;
     if ( numberOfColumns > 127) return;
+
     let targetColumnId = (columnId < 0)
       ? numberOfColumns - 1
       : columnId;
     targetColumnId = addAfter 
       ? targetColumnId 
       : targetColumnId -1;
-    const newLines = lines.map(line => {
-      const newNote = this.getEmptyNote();
-      const firstNotes = line.notes.slice(0, targetColumnId + 1);
-      const lastNotes = line.notes.slice(targetColumnId + 1);
-      const notes = [...firstNotes, newNote, ...lastNotes];
-      return {...line, notes};
-    });
-    const newSelectedColumnId = addAfter
+    
+    this.props.addColumn(this.props.id, targetColumnId);
+
+    const newSelectedColumnId = (addAfter)
       ? columnId
       : columnId + 1;
-    this.setState({ lines: newLines, selectedColumnId: newSelectedColumnId });
+    this.setState({ selectedColumnId: newSelectedColumnId });
   }
 
-  removeColumn (lines, columnId) {
-    const numberOfColumns = this.getNumberOfColumns(lines);
-    if ( numberOfColumns < 2) return;
+  removeColumn = (columnId) => {
+    const numberOfColumns = this.props.length;
+    if (numberOfColumns < 2) return;
+    
     const targetColumnId = (columnId < 0)
       ? numberOfColumns - 1
       : columnId;
-    const newLines = lines.map(line => {
-      const firstNotes = line.notes.slice(0, targetColumnId);
-      const lastNotes = line.notes.slice(targetColumnId + 1);
-      const notes = [...firstNotes, ...lastNotes];
-      return {...line, notes};
-    });
+
+    this.props.removeColumn(this.props.id, targetColumnId);
+
     const newSelectedColumnId = (columnId + 1 >= numberOfColumns)
       ? columnId - 1
       : columnId;
-    this.setState({ lines: newLines, selectedColumnId: newSelectedColumnId });
-  }
-
-  handleAddButtonClick = (columnId, addAfter) => {
-    this.addColumn(this.state.lines, columnId, addAfter);
-  }
-
-  handleRemoveButtonClick = columnId => {
-    this.removeColumn(this.state.lines, columnId);
+    this.setState({ selectedColumnId: newSelectedColumnId });
   }
 
   handleHeaderCellClick = (cellId) => {
@@ -178,19 +142,19 @@ class Tab extends Component {
 		return (
       <div className="tab" >
         <TabMenu 
-          addButtonClickHandler={ this.handleAddButtonClick }
-          removeButtonClickHandler={ this.handleRemoveButtonClick }
+          addColumn={ this.addColumn }
+          removeColumn={ this.removeColumn }
           ref={ cpt => { this.tabMenuCpt = cpt; } }
           selectedColumnId={ this.state.selectedColumnId }
         />
         <TabHeader 
           cellClickHandler={ this.handleHeaderCellClick }
-          numberOfColumns={ this.getNumberOfColumns(this.state.lines) } 
-          numberOfLines={ this.state.lines.length }
+          numberOfColumns={ this.props.length } 
+          numberOfLines={ this.props.lines.length }
           selectedColumnId={ this.state.selectedColumnId }
         />
         <TabBody
-          lines={ this.state.lines }
+          { ...this.props }
           noteClickHandler={ this.handleNoteClick }
           selectedColumnId={ this.state.selectedColumnId }
           selectedLineId={ this.state.selectedLineId }

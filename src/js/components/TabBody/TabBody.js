@@ -12,11 +12,10 @@ class TabBody extends Component {
 
   getLineComponent = (line, i) => (
     <Line 
-      id={ i } 
-      isSelected={ i === this.props.selectedLineId }
-      name={ line.name }
-      notes={ line.notes }
+      { ...line }
+      id={ i }
       key={ i } 
+      isSelected={ i === this.props.selectedLineId }
       noteClickHandler={ this.props.noteClickHandler }
       selectedNoteId={ this.props.selectedNoteId }
     />
@@ -39,7 +38,6 @@ class TabBody extends Component {
 }
 
 TabBody.defaultProps = {
-  lines: [],
   noteClickHandler: () => {},
   selectedColumnId: -1,
   selectedLineId: -1,

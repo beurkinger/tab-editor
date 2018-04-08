@@ -9,7 +9,7 @@ class Column extends Component {
 
   getCellComponent = (note, i) => (
     <Cell 
-      content={ note.content } 
+      content={ note } 
       key={ i } 
     />
   );
