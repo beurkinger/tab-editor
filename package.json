@@ -2,7 +2,7 @@
   "name": "tab-editor",
   "version": "1.1.0",
   "description": "toying with the idea of a web-based tab editor",
-  "main": "index.html",
+  "main": "build/index.html",
   "scripts": {
     "build": "NODE_ENV=production webpack",
     "postinstall": "NODE_ENV=production webpack",
