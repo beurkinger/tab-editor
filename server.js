@@ -1,16 +1,15 @@
-var path = require('path');
-var express = require('express');
+const path = require('path');
+const express = require('express');
+const port = process.env.PORT || 8080;
 
-var app = express();
+const app = express();
 
 app.use(express.static(path.join(__dirname, 'build')));
-
-app.set('port', process.env.PORT || 8080);
 
 app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'build/index.html'));
 });
 
-var server = app.listen(app.get('port'), function() {
+const server = app.listen(port, () => {
   console.log('listening on port ', server.address().port);
 });
