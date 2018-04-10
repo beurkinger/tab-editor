@@ -3,11 +3,11 @@ var express = require('express');
 
 var app = express();
 
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'build')));
 
 app.set('port', process.env.PORT || 8080);
 
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'build/index.html'));
 });
 
