@@ -2,8 +2,8 @@ import Inferno from 'inferno';
 import Component from 'inferno-component';
 
 import './TabBody.css';
-import Column from '../Column/Column';
-import Line from '../Line/Line';
+import Column from './Column/Column';
+import Line from './Line/Line';
 
 class TabBody extends Component {
   getColumnNotes (lines, columnId) {

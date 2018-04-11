@@ -2,10 +2,10 @@ import Inferno from 'inferno';
 import Component from 'inferno-component';
 
 import './Tab.css';
-import TabBody from '../TabBody/TabBody';
-import TabHeader from '../TabHeader/TabHeader';
-import TabMenu from '../TabMenu/TabMenu';
-import { SPACE_CHAR } from '../Note/Note';
+import TabBody from './TabBody/TabBody';
+import TabHeader from './TabHeader/TabHeader';
+import TabMenu from './TabMenu/TabMenu';
+import { SPACE_CHAR } from '../../Constants';
 
 class Tab extends Component {
   state = { 

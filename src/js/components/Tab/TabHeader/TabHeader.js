@@ -2,7 +2,7 @@ import Inferno from 'inferno';
 import Component from 'inferno-component';
 
 import './TabHeader.css';
-import HeaderCell from '../HeaderCell/HeaderCell';
+import HeaderCell from './HeaderCell/HeaderCell';
 
 class TabHeader extends Component {
   getCellComponents = (numberOfColumns, numberOfLines) => {

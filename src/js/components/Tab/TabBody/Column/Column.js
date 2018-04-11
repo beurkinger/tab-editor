@@ -3,7 +3,7 @@ import Component from 'inferno-component';
 
 import './Column.css';
 
-import Cell from '../Cell/Cell';
+import Cell from '../../../Cell/Cell';
 
 class Column extends Component {
 
