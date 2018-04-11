@@ -3,9 +3,10 @@ import Component from 'inferno-component';
 
 import './Tab.css';
 import TabBody from './TabBody/TabBody';
+import TabFooter from './TabFooter/TabFooter';
 import TabHeader from './TabHeader/TabHeader';
 import TabMenu from './TabMenu/TabMenu';
-import { SPACE_CHAR } from '../../Constants';
+import { SPACE_CHAR } from '../../../Constants';
 
 class Tab extends Component {
   state = { 
@@ -155,11 +156,12 @@ class Tab extends Component {
 		return (
       <div className="tab" >
         <TabMenu 
+          { ...this.props }
           addColumn={ this.addColumn }
           copyToClipboard={ this.copyToClipboard } 
+          moveTab={ this.props.moveTab }
           pasteFromClipboard={ this.pasteFromClipboard }
           removeColumn={ this.removeColumn }
-          ref={ cpt => { this.tabMenuCpt = cpt; } }
           selectedColumnId={ this.state.selectedColumnId }
         />
         <TabHeader 
@@ -175,9 +177,7 @@ class Tab extends Component {
           selectedLineId={ this.state.selectedLineId }
           selectedNoteId={ this.state.selectedNoteId }
         />
-        <div className="tab__footer">
-          { ` ` }
-        </div>
+        <TabFooter />
       </div>
     );
 	}

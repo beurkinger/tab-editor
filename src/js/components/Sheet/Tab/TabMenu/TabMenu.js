@@ -12,6 +12,10 @@ class TabMenu extends Component {
     this.props.copyToClipboard(this.props.selectedColumnId);
   }
 
+  onMoveButtonClick = (moveUp = true) => { 
+    this.props.moveTab(this.props.id, moveUp);
+  }
+
   onPasteButtonClick = () => {
     this.props.pasteFromClipboard(this.props.selectedColumnId);
   }
@@ -26,7 +30,15 @@ class TabMenu extends Component {
 
 	render () {
 		return (
-      <div className="tabMenu" onMouseDown={ this.onMouseDown } >
+      <div className="tabMenu" onMouseDown={ this.onMouseDown }>
+        <div>
+          <button onClick={ () => this.onMoveButtonClick(false) }>
+            MOVE DOWN
+          </button>
+          <button onClick={ () => this.onMoveButtonClick(true) } >
+            MOVE UP
+          </button>
+        </div>
         { this.props.selectedColumnId < 0 &&
           <div>
             <button onClick={ this.onAddButtonClick } >

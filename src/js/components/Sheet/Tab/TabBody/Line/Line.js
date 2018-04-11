@@ -3,7 +3,7 @@ import Component from 'inferno-component';
 
 import './Line.css';
 
-import Cell from '../../../Cell/Cell';
+import Cell from '../../../../Cell/Cell';
 import Note, { SPACE_CHAR } from './Note/Note';
 
 class Line extends Component {

@@ -2,7 +2,7 @@ import Inferno from 'inferno';
 import Component from 'inferno-component';
 
 import './Note.css';
-import Cell from '../../../../Cell/Cell';
+import Cell from '../../../../../Cell/Cell';
 
 const Note = ({ clickHandler, content, id, isSelected }) => { 
 	return (
