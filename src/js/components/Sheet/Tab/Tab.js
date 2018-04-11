@@ -6,7 +6,7 @@ import TabBody from './TabBody/TabBody';
 import TabFooter from './TabFooter/TabFooter';
 import TabHeader from './TabHeader/TabHeader';
 import TabMenu from './TabMenu/TabMenu';
-import { SPACE_CHAR } from '../../../Constants';
+import { SPACE_CHAR } from '../../../constants';
 
 class Tab extends Component {
   state = { 
