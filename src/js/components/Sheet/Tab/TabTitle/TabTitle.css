@@ -3,17 +3,20 @@
 }
 
 .tabTitle__input {
-  margin: 0;
-  padding: 0;
+  margin-bottom: 10px;
   border: 0;
+  border-bottom: 1px solid transparent;
   width: 100%;
   font-size: 14px;
   height: 16px;
+  padding: 10px 0;
   line-height: 16px;
   font-weight: normal;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 
+.tabTitle__input:hover,
 .tabTitle__input:focus {
   outline: 0;
+  border-color: #DDD;
 }
