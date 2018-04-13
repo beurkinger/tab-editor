@@ -1,10 +1,10 @@
-import Inferno from 'inferno';
+
 import Component from 'inferno-component';
 
 import Tab from './Tab/Tab';
 
 class Sheet extends Component {
-  handleChange = e => {
+  handleInput = e => {
     const { value } = e.target;
     const filteredString = value.replace(/[^a-zA-Z]/g, '');
     this.props.updateLinesInput(filteredString);
@@ -27,6 +27,7 @@ class Sheet extends Component {
         pasteFromClipboard={ this.props.pasteFromClipboard }
         removeColumn={ this.props.removeColumn } 
         updateNote={ this.props.updateNote } 
+        updateTabTitle={ this.props.updateTabTitle }
       />);
   };
 
@@ -34,7 +35,7 @@ class Sheet extends Component {
 		return (
       <div className="sheet" >
         <input 
-          onChange={ this.handleChange }
+          onInput={ this.handleInput }
           type="text" 
           value={ this.props.linesInput } 
         />

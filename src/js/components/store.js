@@ -3,7 +3,7 @@ state = {
     byId : {
       1 : {
         id : 1,
-        name: 'tab 1' ,
+        title: 'tab 1' ,
         lineIds : [1, 2] 
       }
     },

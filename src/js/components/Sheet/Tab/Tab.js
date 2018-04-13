@@ -1,4 +1,4 @@
-import Inferno from 'inferno';
+
 import Component from 'inferno-component';
 
 import './Tab.css';
@@ -6,6 +6,7 @@ import TabBody from './TabBody/TabBody';
 import TabFooter from './TabFooter/TabFooter';
 import TabHeader from './TabHeader/TabHeader';
 import TabMenu from './TabMenu/TabMenu';
+import TabTitle from './TabTitle/TabTitle';
 import { SPACE_CHAR } from '../../../constants';
 
 class Tab extends Component {
@@ -152,9 +153,18 @@ class Tab extends Component {
     this.addClickListener();
   }
 
+  updateTabTitle = title => { 
+    this.props.updateTabTitle(this.props.id, title); 
+  }
+
 	render () {
 		return (
       <div className="tab" >
+        <TabTitle 
+          { ...this.props }
+          isTitleBeingEdited={ this.state.isTitleBeingEdited }
+          updateTabTitle={ this.updateTabTitle }
+        />
         <TabMenu 
           { ...this.props }
           addColumn={ this.addColumn }

@@ -1,5 +1,5 @@
-import Inferno from 'inferno';
+import { render } from 'inferno';
 
 import App from './components/App';
 
-Inferno.render(<App />, document.getElementById('root'));
+render(<App />, document.getElementById('root'));

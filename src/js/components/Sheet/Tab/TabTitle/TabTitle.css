@@ -1,0 +1,19 @@
+.tabTitle {
+
+}
+
+.tabTitle__input {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: 100%;
+  font-size: 14px;
+  height: 16px;
+  line-height: 16px;
+  font-weight: normal;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+.tabTitle__input:focus {
+  outline: 0;
+}

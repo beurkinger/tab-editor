@@ -1,4 +1,4 @@
-import Inferno from 'inferno';
+
 import Component from 'inferno-component';
 
 import './App.css';
@@ -22,9 +22,9 @@ class App extends Component {
   // Add a tab to the store and return the new tab id
   addTab = (lineNames = ['e', 'B', 'G', 'D', 'A', 'E'], length = 32) => {
     const id = this.getBiggestId(this.state.tabs.allIds) + 1;
-    const name = `tab ${id}`;
+    const title = `tab ${id}`;
     const lines = this.getLines(lineNames, length);
-    const tab = { id, name, lines, length };
+    const tab = { id, title, lines, length };
     const tabs = {
       ...this.state.tabs,
       byId: { ...this.state.tabs.byId, [id]: tab },
@@ -130,6 +130,11 @@ class App extends Component {
     this.setState({ linesInput });
   }
 
+  updateTabTitle = (tabId, title) => {
+    const tab = { ...this.state.tabs.byId[tabId], title };
+    this.updateTab(tab);
+  }
+
   // return the biggest id in an array of number ids, or 0 if the array is empty
   getBiggestId = (allIds = []) => allIds.length > 0 ? Math.max(...allIds) : 0;
 
@@ -137,6 +142,7 @@ class App extends Component {
 		return (
       <div id="app" >
         <Sheet 
+          { ...this.state } 
           addTab={ this.addTab } 
           addColumn={ this.addColumn }
           copyToClipboard={ this.copyToClipboard } 
@@ -145,7 +151,7 @@ class App extends Component {
           removeColumn={ this.removeColumn } 
           updateLinesInput={ this.updateLinesInput }
           updateNote={ this.updateNote }
-          { ...this.state } 
+          updateTabTitle={ this.updateTabTitle }
         />
       </div>
     );
