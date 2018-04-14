@@ -1,5 +1,5 @@
 
-import Component from 'inferno-component';
+import { Component } from 'inferno'
 
 import './App.css';
 import Sheet from './Sheet/Sheet';

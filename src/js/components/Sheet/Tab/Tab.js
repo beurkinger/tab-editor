@@ -1,5 +1,5 @@
 
-import Component from 'inferno-component';
+import { Component } from 'inferno'
 
 import './Tab.css';
 import TabBody from './TabBody/TabBody';
@@ -7,6 +7,7 @@ import TabFooter from './TabFooter/TabFooter';
 import TabHeader from './TabHeader/TabHeader';
 import TabMenu from './TabMenu/TabMenu';
 import TabTitle from './TabTitle/TabTitle';
+import TextField from '../../TextField/TextField';
 import { SPACE_CHAR } from '../../../constants';
 
 class Tab extends Component {
@@ -188,6 +189,7 @@ class Tab extends Component {
           selectedNoteId={ this.state.selectedNoteId }
         />
         <TabFooter />
+        <TextField />
       </div>
     );
 	}

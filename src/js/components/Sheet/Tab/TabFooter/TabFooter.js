@@ -1,5 +1,5 @@
 
-import Component from 'inferno-component';
+import { Component } from 'inferno'
 
 import './TabFooter.css';
 

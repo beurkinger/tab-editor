@@ -31,7 +31,7 @@
   "homepage": "https://github.com/beurkinger/tab-editor#readme",
   "dependencies": {
     "inferno": "^5.0.3",
-    "inferno-component": "^5.0.3"
+    "inferno-create-element": "^5.0.3"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

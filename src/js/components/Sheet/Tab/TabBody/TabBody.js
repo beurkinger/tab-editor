@@ -1,5 +1,5 @@
 
-import Component from 'inferno-component';
+import { Component } from 'inferno'
 
 import './TabBody.css';
 import Column from './Column/Column';

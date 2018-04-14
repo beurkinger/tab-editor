@@ -1,5 +1,5 @@
 
-import Component from 'inferno-component';
+import { Component } from 'inferno'
 
 import './TabHeader.css';
 import HeaderCell from './HeaderCell/HeaderCell';
