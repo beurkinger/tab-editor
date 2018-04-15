@@ -24,7 +24,8 @@ class App extends Component {
     const id = this.getBiggestId(this.state.tabs.allIds) + 1;
     const title = `tab ${id}`;
     const lines = this.getLines(lineNames, length);
-    const tab = { id, title, lines, length };
+    const comment = 'text area';
+    const tab = { id, length, lines, title, comment };
     const tabs = {
       ...this.state.tabs,
       byId: { ...this.state.tabs.byId, [id]: tab },
