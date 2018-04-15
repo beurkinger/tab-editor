@@ -31,7 +31,7 @@ class OutsideClickListener extends Component {
   }
 
   handleClick = e => {
-    if (!this.props.isListening || !this.props.onClick) return false;
+    if (!this.props.onClick) return false;
     if (this.elt && !this.elt.contains(e.target)) this.props.onClick(e);
   }
 

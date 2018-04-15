@@ -23,17 +23,22 @@ class InputListener extends Component {
   }
 
   addListeners () {
-    document.addEventListener('onkeydown', this.handleKeyDown);
+    document.addEventListener('keydown', this.handleKeyDown);
+    // document.addEventListener('keypress', this.handleKeyPress);
   }
 
   removeListeners () {
-    document.removeEventListener('onkeydown', this.handleKeyDown);
+    document.removeEventListener('keydown', this.handleKeyDown);
+    // document.removeEventListener('keypress', this.handleKeyPress);
   }
 
   handleKeyDown = e => {
-    if (!this.props.isListening || !this.props.onKeyDown) return false;
-    if (this.elt && !this.elt.contains(e.target)) this.props.onKeyDown(e);
+    if (this.props.onKeyDown) this.props.onKeyDown(e);
   }
+
+  // handleKeyPress = e => {
+  //   if (this.props.onKeyPress) this.props.onKeyPress(e);
+  // }
 
   render () {
     return createElement(this.props.elementType, {
@@ -49,7 +54,7 @@ InputListener.defaultProps = {
   elementType: 'div',
   isListening: true,
   onKeyDown: null,
-  onKeyPress: null,
+  // onKeyPress: null,
 }
 
 export default InputListener;
