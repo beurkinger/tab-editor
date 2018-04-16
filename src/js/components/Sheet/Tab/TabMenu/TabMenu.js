@@ -12,6 +12,14 @@ class TabMenu extends Component {
     this.props.copyToClipboard(this.props.selectedColumnId);
   }
 
+  onDeleteButtonClick = () => {
+    this.props.deleteTab(this.props.id);
+  }
+
+  onMouseDown = e => {
+    e.stopPropagation();
+  }
+
   onMoveButtonClick = (moveUp = true) => { 
     this.props.moveTab(this.props.id, moveUp);
   }
@@ -24,10 +32,6 @@ class TabMenu extends Component {
     this.props.removeColumn(this.props.selectedColumnId);
   }
 
-  onMouseDown = e => {
-    e.stopPropagation();
-  }
-
 	render () {
 		return (
       <div className="tabMenu" onMouseDown={ this.onMouseDown }>
@@ -37,6 +41,9 @@ class TabMenu extends Component {
           </button>
           <button onClick={ () => this.onMoveButtonClick(true) } >
             MOVE UP
+          </button>
+          <button onClick={ () => this.onDeleteButtonClick(true) } >
+            DELETE TAB
           </button>
         </div>
         { this.props.selectedColumnId < 0 &&

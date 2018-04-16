@@ -35,6 +35,18 @@ class App extends Component {
     return id;
   };
 
+
+  deleteTab = tabId => {
+    const { [tabId]: deletedTab, ...otherTabs } = this.state.tabs.byId;
+    const tabIds = this.state.tabs.allIds.filter(id => id !== tabId);
+    const tabs = {
+      ...this.state.tabs,
+      byId: otherTabs,
+      allIds: tabIds
+    };
+    this.setState({ tabs });
+  }
+
   updateNote = (tabId, lineId, noteId, content) => {
     const tab = this.state.tabs.byId[tabId];
     const lines = tab.lines;
@@ -147,6 +159,7 @@ class App extends Component {
           addTab={ this.addTab } 
           addColumn={ this.addColumn }
           copyToClipboard={ this.copyToClipboard } 
+          deleteTab={ this.deleteTab }
           moveTab={ this.moveTab }
           pasteFromClipboard={ this.pasteFromClipboard } 
           removeColumn={ this.removeColumn } 

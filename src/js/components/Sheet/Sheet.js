@@ -22,6 +22,7 @@ class Sheet extends Component {
         { ...tab } 
         addColumn={ this.props.addColumn } 
         copyToClipboard={ this.props.copyToClipboard } 
+        deleteTab={ this.props.deleteTab }
         key={ tab.id }
         moveTab={ this.props.moveTab }
         pasteFromClipboard={ this.props.pasteFromClipboard }

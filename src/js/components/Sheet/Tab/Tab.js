@@ -170,6 +170,7 @@ class Tab extends Component {
           { ...this.props }
           addColumn={ this.addColumn }
           copyToClipboard={ this.copyToClipboard } 
+          deleteTab={ this.props.deleteTab }
           moveTab={ this.props.moveTab }
           pasteFromClipboard={ this.pasteFromClipboard }
           removeColumn={ this.removeColumn }
